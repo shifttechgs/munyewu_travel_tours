@@ -1,0 +1,382 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/* Brand tokens — mirrors docs/design-system.md.
+   Navy 70% / paper 20% / gold 10%. Gold is reserved for the next action. */
+@theme {
+    --color-navy: #24283d;
+    --color-navy-800: #1d2033;
+    --color-navy-900: #171a29;
+    --color-paper: #f5f4f0;
+    --color-gold: #e3b743;
+    --color-gold-600: #cfa531;
+
+    --font-display: 'Bebas Neue', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* Fluid spacing — Awwwards/Framer style: one scale, clamp-driven, generous rhythm. */
+:root {
+    --gutter: clamp(20px, 5vw, 80px);
+    --section-y: clamp(72px, 11vw, 176px);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        /* Offset in-page anchors for the sticky header. */
+        scroll-padding-top: 88px;
+    }
+
+    body {
+        background-color: var(--color-navy);
+        color: var(--color-paper);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    /* Bebas Neue is uppercase by nature and needs air between caps at display sizes. */
+    .font-display {
+        letter-spacing: 0.01em;
+        font-weight: 400;
+    }
+
+    /* Consistent, highly visible focus for keyboard users (design-system.md). */
+    :focus-visible {
+        outline: 3px solid var(--color-gold);
+        outline-offset: 3px;
+        border-radius: 2px;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+    }
+}
+
+@layer components {
+    .wrap {
+        width: 100%;
+        max-inline-size: 1320px;
+        margin-inline: auto;
+        padding-inline: var(--gutter);
+    }
+
+    .section {
+        padding-block: var(--section-y);
+    }
+
+    /* Buttons — pill, 44px min target, navy label on gold. */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 2.75rem;
+        padding-inline: 1.5rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease,
+            color 180ms ease;
+    }
+
+    .btn-primary {
+        background-color: var(--color-gold);
+        color: var(--color-navy);
+    }
+    .btn-primary:hover {
+        background-color: var(--color-gold-600);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .btn-ghost {
+        color: var(--color-paper);
+        border: 1px solid color-mix(in srgb, var(--color-paper) 45%, transparent);
+    }
+    .btn-ghost:hover {
+        border-color: var(--color-paper);
+    }
+
+    /* Enquiry text link — gold, underline reveals on hover/focus. */
+    .enquiry-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--color-gold);
+        font-weight: 600;
+        text-underline-offset: 4px;
+        text-decoration-color: transparent;
+        text-decoration-line: underline;
+        transition: text-decoration-color 180ms ease, gap 180ms ease;
+    }
+    .enquiry-link:hover,
+    .enquiry-link:focus-visible {
+        text-decoration-color: currentColor;
+        gap: 0.65rem;
+    }
+
+    /* Form fields. */
+    .field-label {
+        display: block;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.4rem;
+    }
+    .field-input {
+        width: 100%;
+        min-height: 2.75rem;
+        padding: 0.65rem 0.85rem;
+        border-radius: 10px;
+        border: 1px solid color-mix(in srgb, var(--color-navy) 25%, transparent);
+        background-color: #fff;
+        color: var(--color-navy);
+        font-size: 1rem;
+        font-family: var(--font-sans);
+    }
+    .field-input::placeholder {
+        color: color-mix(in srgb, var(--color-navy) 45%, transparent);
+    }
+    .field-input:focus-visible {
+        outline: 3px solid var(--color-gold);
+        outline-offset: 2px;
+        border-color: var(--color-navy);
+    }
+    .field-error {
+        display: block;
+        margin-top: 0.35rem;
+        font-size: 0.8125rem;
+        color: #b4231f;
+        font-weight: 500;
+    }
+    .field-input[aria-invalid='true'] {
+        border-color: #b4231f;
+    }
+
+    /* Header — flat on the hero, condenses into a floating pill on scroll. */
+    .site-header {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        z-index: 50;
+    }
+    /* Gentle top scrim keeps the flat nav legible over any hero photo. */
+    .site-header::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 150%;
+        background: linear-gradient(to bottom, color-mix(in srgb, var(--color-navy) 60%, transparent), transparent);
+        opacity: 1;
+        transition: opacity 300ms ease;
+        pointer-events: none;
+    }
+    .site-header.is-scrolled::before {
+        opacity: 0;
+    }
+
+    .header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-block: 1.25rem;
+        padding-inline: 0;
+        margin-top: 0;
+        border: 1px solid transparent;
+        border-radius: 0;
+        background-color: transparent;
+        transition: padding 300ms ease, margin 300ms ease, background-color 300ms ease,
+            border-color 300ms ease, border-radius 300ms ease, box-shadow 300ms ease;
+    }
+    .is-scrolled .header-bar {
+        padding-block: 0.55rem;
+        padding-inline: 1.25rem;
+        margin-top: 0.75rem;
+        border-radius: 999px;
+        border-color: color-mix(in srgb, var(--color-paper) 12%, transparent);
+        background-color: color-mix(in srgb, var(--color-navy) 72%, transparent);
+        -webkit-backdrop-filter: blur(12px) saturate(140%);
+        backdrop-filter: blur(12px) saturate(140%);
+        box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.55);
+    }
+}
+
+/* Tour cards: subtle border + shadow so white cards separate from the light section. */
+.tour-card {
+    border: 1px solid color-mix(in srgb, var(--color-navy) 8%, transparent);
+    box-shadow: 0 22px 48px -32px rgba(36, 40, 61, 0.45);
+}
+
+/* Signature interaction: tour image eases up inside its frame on pointer hover
+   or keyboard focus within the feature. Disabled under reduced-motion. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .feature-media img {
+        transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .feature:hover .feature-media img,
+    .feature:focus-within .feature-media img {
+        transform: scale(1.05);
+    }
+}
+
+/* Full-bleed photographic hero (Touriva-style): brand-tinted overlay keeps the
+   centered type legible over the photograph without hiding Table Mountain. */
+.hero-overlay {
+    background:
+        /* bottom scrim anchors the text; the sky and upper photo stay crisp */
+        linear-gradient(
+            to top,
+            color-mix(in srgb, var(--color-navy) 85%, transparent) 0%,
+            color-mix(in srgb, var(--color-navy) 32%, transparent) 34%,
+            transparent 62%
+        ),
+        /* gentle left scrim for the bottom-left heading; right half stays clear */
+        linear-gradient(
+            to right,
+            color-mix(in srgb, var(--color-navy) 52%, transparent) 0%,
+            transparent 52%
+        );
+}
+.hero-title {
+    text-shadow: 0 2px 30px rgba(10, 12, 20, 0.35);
+}
+
+/* Hero slider: stacked slides crossfade; only the active one is visible. */
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 800ms ease;
+}
+.hero-slide.is-active {
+    opacity: 1;
+}
+
+/* Slider controls */
+.hero-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    color: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 25%, transparent);
+    background-color: color-mix(in srgb, var(--color-navy) 30%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: background-color 200ms ease, border-color 200ms ease;
+}
+.hero-arrow:hover {
+    background-color: color-mix(in srgb, var(--color-navy) 55%, transparent);
+    border-color: color-mix(in srgb, var(--color-paper) 55%, transparent);
+}
+.hero-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-paper) 40%, transparent);
+    transition: width 300ms ease, background-color 300ms ease;
+}
+.hero-dot:hover {
+    background-color: color-mix(in srgb, var(--color-paper) 70%, transparent);
+}
+.hero-dot.is-active {
+    width: 1.5rem;
+    background-color: var(--color-gold);
+}
+
+/* Frosted "up next" preview card showing the upcoming slide. */
+.hero-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.85rem 0.5rem 0.5rem;
+    border-radius: 0.75rem;
+    color: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 15%, transparent);
+    background-color: color-mix(in srgb, var(--color-navy) 28%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.6);
+    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.hero-preview:hover {
+    background-color: color-mix(in srgb, var(--color-navy) 52%, transparent);
+    border-color: color-mix(in srgb, var(--color-paper) 40%, transparent);
+    transform: translateY(-2px);
+}
+.hero-preview-thumb {
+    flex: none;
+    width: 96px;
+    height: 60px;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--color-navy) 60%, transparent);
+}
+.hero-preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hero-preview-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 1.15;
+}
+.hero-preview-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-gold);
+}
+.hero-preview-loc {
+    margin-top: 2px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.hero-preview-arrow {
+    flex: none;
+    opacity: 0.75;
+}
+
+/* Hero image settles in on load without blocking render. */
+@keyframes hero-settle {
+    from {
+        transform: scale(1.08);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .hero-img {
+        animation: hero-settle 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
