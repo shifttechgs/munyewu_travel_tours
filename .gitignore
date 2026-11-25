@@ -23,6 +23,7 @@
 /storage/qa
 /database/*.sqlite
 /database/*.sqlite-journal
+/.claude/settings.local.json
 /vendor
 _ide_helper.php
 Homestead.json

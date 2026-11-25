@@ -1,5 +1,11 @@
 # Image credits
 
+## Logo — ACTION NEEDED
+- `munyewu-banner.png` is the supplied file: a **photograph of the printed roll-up banner**, not a logo asset. Kept here only to preserve the original artwork.
+- It cannot be used as the on-site logo: the "M" monogram sits on a photographic, non-transparent background, is shot at an angle, and will not blend on the header.
+- The header/footer use a clean **typographic wordmark** (Bebas Neue "Munyewu" + gold "Travel & Tours") that mirrors the brand lockup.
+- **Needed:** an official logo as **SVG** (preferred) or a high-resolution **PNG with a transparent background**. Provide it and the real mark can be dropped into the header and footer.
+
 ## Hero — `hero-cape-town-aerial.jpg` / `.webp`
 - **Subject:** Aerial view of Cape Town — Table Mountain, the city bowl, the stadium and the Atlantic coastline.
 - **Source:** Supplied by the client (no on-page attribution rendered).
@@ -30,3 +36,17 @@ All three heroes were re-encoded to WebP (q88) + JPG (q92) and sized to ~2000px 
 - **Source:** Wikimedia Commons (`File:Stellenbosch Vineyard.jpg`). **Licence:** Public domain (no attribution required).
 
 > The `.svg` versions of these are the old placeholders and can be deleted.
+
+## Services featured — `service-chauffeur.jpg` / `.webp`
+- **Subject:** Chapman's Peak Drive, the coastal road near Cape Town.
+- **Author:** Diego Delso (Wikimedia Commons). **Licence:** CC BY-SA 4.0 (attribution required; a small credit is shown on the card).
+
+The Services section also reuses `hero-cape-town-aerial.*` (Airport transfers card) and `hero-cape-wheel.*` (Groups & events card).
+
+## Collections — `collection-cape-point.*`
+- **Subject:** Cape Point headland. **Author:** Diego Delso (Wikimedia Commons). **Licence:** CC BY-SA 4.0 (attribution required).
+
+## Collections — `collection-penguins.*`
+- **Subject:** African penguins, Boulders Beach, Simon's Town. **Author:** Sumit Surai (Wikimedia Commons). **Licence:** CC BY-SA 4.0 (attribution required).
+
+The Handpicked collections grid also reuses `hero-cape-town-aerial.*` and `tour-winelands.*`. The CTA banner and Value section reuse existing hero/service imagery.
